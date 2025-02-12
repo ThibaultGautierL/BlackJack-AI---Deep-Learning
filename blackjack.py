@@ -1,69 +1,58 @@
-class Card :
-    def __init__(self, value, symbol, number, state):
-        self.value = value
-        self.symbol = symbol
-        self.number = number
-        self.state = state
-
-    def show(self):
-        print(f"{self.number} of {self.symbol}. Value : {self.value}")
+from blackjack.player import Human, Dealer 
+from blackjack.setup import setup_deck
 
 
-class Deck : 
-    def __init__(self):
-        self.card_list = []
 
-    def add_a_card_in_deck (self, card):
-        self.card_list.append(card)
+def draw_first_cards(deck, my_player, dealer):
+    while True:
+        try:
+            bet = int(input("How many do you want to bet ? "))
+            break
+        except ValueError:
+            print("Please enter a valid number")
+    
+    my_player.bet_money(bet)
 
-    def shuffle_deck(self) :
-        pass
 
-    def show(self):
-        print(f"Number of card in the deck : {len(self.card_list)}")
-        for card in self.card_list:
-            card.show()
+    deck.pick_a_card(my_player)
+    deck.pick_a_card(dealer)
 
-class Human: 
-    def __init__(self, money, name):
-        self.money = money
-        self.name = name
-        self.bet = 0
-        self.hand = []
+    deck.pick_a_card(my_player)
+    deck.pick_a_card(dealer)
 
-    def pick_a_card (self) :
-        pass
+    my_player.show_hand()
+    dealer.show_hand()
+
+
+
+
+deck = setup_deck()
+deck.shuffle()
+# deck.show()
+
+
+my_player = Human("Mickeal", 1000)
+dealer = Dealer("Andrew")
+
+
+while my_player.money > 0:
+
+
+    shall_continue = True
+    draw_first_cards(deck, my_player, dealer)
+
+    while my_player.total_hand_value < 21:
+
         
-    def throw_a_card (self) : 
-        pass 
+        shall_continue = input("Continue ? (1 = Yes / 0 = No) ").strip()
 
-class Dealer(Human): 
-    pass
-
-
-card_deck = Deck()
-
-symbol = ["spades", "diamonds", "clubs", "hearts"]
-number = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"]
-
-# for o in range (0, 4, 1):
-for i in range(0, 4, 1): 
-    for j in range(0, 13, 1):
-        if j < 10 and j > 0:
-            card_value = j + 1
-        elif j == 0 :
-            card_value = 11
-        else:
-            card_value = 10
-        
-        card_deck.add_a_card_in_deck(Card(card_value, symbol[i], number[j], True))
+        if shall_continue == "1":
+            deck.pick_a_card(my_player)
+            my_player.show_hand()
+        elif shall_continue == "0":
+            break 
+            
 
 
-card_deck.show()
-
-
-
-my_player = Human(1000, "Mickeal")
-dealer = Dealer(10000, "Andrew")
-
+    break
 
