@@ -6,4 +6,4 @@ class Card :
         self.state = state
 
     def show(self):
-        print(f"{self.number} {self.symbol}. Value : {self.value}")
+        print(f"{self.number}{self.symbol}.")
