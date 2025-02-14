@@ -12,9 +12,12 @@ class Deck :
         random.shuffle(self.card_list)
 
     #Quand un joueur prend une carte, on considère qu'elle appartient à la défausse
-    def pick_a_card(self, player):
+    def pick_a_card(self, player, hand_number= 0):
         self.card_already_picked.append(self.card_list[0])
-        player.pick_a_card(self.card_list[0])
+        if hand_number == 0:
+            player.pick_a_card(self.card_list[0])
+        else:
+            player.pick_a_card(self.card_list[0], 1)
         self.card_list.remove(self.card_list[0])
 
     def show(self):
